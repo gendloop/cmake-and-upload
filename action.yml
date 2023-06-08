@@ -42,14 +42,23 @@ runs:
         echo $final_version
         echo "CURR_VERSION=$final_version" >> "$GITHUB_OUTPUT"
 
+    # - name: upload-release-assets
+    #   uses: gendloop/upload-release-assets@main
+    #   with:
+    #     releaseTag: ${{ steps.get_version.outputs.CURR_VERSION }}
+    #     githubToken: ${{ inputs.token }}
+    #     files: |
+    #       ./upload/*.zip
+    #     overrideExistingArtefact: true
+
     - name: upload-release-assets
-      uses: gendloop/upload-release-assets@main
+      uses: xresloader/upload-to-github-release@v1
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
       with:
-        releaseTag: ${{ steps.get_version.outputs.CURR_VERSION }}
-        githubToken: ${{ inputs.token }}
-        files: |
-          ./upload/*.zip
-        overrideExistingArtefact: true
+        file: "./upload/*.zip"
+        tag_name: ${{ steps.get_version.outputs.CURR_VERSION }}
+        overwrite: true
 
 
 
