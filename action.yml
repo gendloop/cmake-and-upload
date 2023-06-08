@@ -42,12 +42,13 @@ runs:
         echo $final_version
         echo "CURR_VERSION=$version" >> "$GITHUB_OUTPUT"
 
-    - name: upload-release-asserts
-      uses: AButler/upload-release-assets@v2.0
+    - name: upload-release-assets
+      uses: echoapmanFromBunnings/upload-release-assets@1.3
       with:
-        files: 'upload/*.zip'
-        repo-token: ${{ inputs.token }}
-        release-tag: ${{ steps.get_version.outputs.CURR_VERSION }}
+        files: |
+          './upload/*.zip'
+        githubToken: ${{ inputs.token }}
+        releaseTag: ${{ steps.get_version.outputs.CURR_VERSION }}
 
 
 
