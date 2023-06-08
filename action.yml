@@ -34,13 +34,12 @@ runs:
       working-directory: ${{ github.workspace }}
       shell: bash
       run: |
-        # 使用grep, awk和重定向来从文件中提取文本内容
-        text=$(cat config.txt)
-        # 使用 awk 命令把第二列的数字提取出来并以点 (.) 连接成为一个版本号
-        major=$(echo "$text" | grep -oP 'VERSION_MAJOR=\K\d+')
-        minor=$(echo "$text" | grep -oP 'VERSION_MINOR=\K\d+')
-        patch=$(echo "$text" | grep -oP 'VERSION_PATCH=\K\d+')
-        version="v$major.$minor.$patch"
+        version=$(cat version.txt)
+        major=$(echo $version | grep -o "VERSION_MAJOR=[0-9]*" | cut -d'=' -f2)
+        minor=$(echo $version | grep -o "VERSION_MINOR=[0-9]*" | cut -d'=' -f2)
+        patch=$(echo $version | grep -o "VERSION_PATCH=[0-9]*" | cut -d'=' -f2)
+        final_version=v${major}.${minor}.${patch}
+        echo $final_version
         echo "CURR_VERSION=$version" >> "$GITHUB_OUTPUT"
 
     - name: upload-release-asserts
