@@ -1,0 +1,54 @@
+name: cmake-and-upload
+author: gendloop
+description: 'cmake-and-upload'
+inputs:
+# Required
+  token:
+    description: 'Personal token'
+    required: true
+    default: ${{ github.token }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: checkout-repo
+      uses: actions/checkout@v3
+      with: 
+        token: ${{ inputs.token }}
+        submodules: 'recursive'
+    
+    - name: cmake-x86
+      working-directory: ${{ github.workspace }}/scripts
+      shell: powershell
+      run: |
+        ./cmake.ps1 -generator "Visual Studio 16 2019" -platform "x86"
+
+    - name: cmake-x64
+      working-directory: ${{ github.workspace }}/scripts
+      shell: powershell
+      run: |
+        ./cmake.ps1 -generator "Visual Studio 16 2019" -platform "x64"
+
+    - name: get-version
+      id: get_version
+      working-directory: ${{ github.workspace }}
+      shell: bash
+      run: |
+        # 使用grep, awk和重定向来从文件中提取文本内容
+        text=$(cat config.txt)
+        # 使用 awk 命令把第二列的数字提取出来并以点 (.) 连接成为一个版本号
+        major=$(echo "$text" | grep -oP 'VERSION_MAJOR=\K\d+')
+        minor=$(echo "$text" | grep -oP 'VERSION_MINOR=\K\d+')
+        patch=$(echo "$text" | grep -oP 'VERSION_PATCH=\K\d+')
+        version="v$major.$minor.$patch"
+        echo "CURR_VERSION=$version" >> "$GITHUB_OUTPUT"
+
+    - name: upload-release-asserts
+      uses: AButler/upload-release-assets@v2.0
+      with:
+        files: './upload/*.zip'
+        repo-token: ${{ inputs.token }}
+        release-tag: ${{ steps.get_version.outputs.CURR_VERSION }}
+
+
+
