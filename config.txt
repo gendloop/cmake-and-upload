@@ -1,0 +1,5 @@
+
+PROJECT_NAME=cmake-and-upload
+cmake-and-upload_VERSION_MAJOR=1
+cmake-and-upload_VERSION_MINOR=0
+cmake-and-upload_VERSION_PATCH=0
