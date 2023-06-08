@@ -40,16 +40,16 @@ runs:
         patch=$(echo $version | grep -o "VERSION_PATCH=[0-9]*" | cut -d'=' -f2)
         final_version=v${major}.${minor}.${patch}
         echo $final_version
-        echo "CURR_VERSION=$version" >> "$GITHUB_OUTPUT"
+        echo "CURR_VERSION=$final_version" >> "$GITHUB_OUTPUT"
 
     - name: upload-release-assets
-      uses: xresloader/upload-to-github-release@v1
-      env:
-        GITHUB_TOKEN: ${{ inputs.token }}
+      uses: echapmanFromBunnings/upload-release-assets@1.3
       with:
-        tag_name: '${{ steps.get_version.outputs.CURR_VERSION }}'
-        file: './upload/*.zip'
-        overwrite: true
+        releaseTag: ${{ steps.get_version.outputs.CURR_VERSION }}
+        githubToken: ${{ inputs.token }}
+        files: |
+          ./upload/*.zip
+        overrideExistingArtefact: true
 
 
 
