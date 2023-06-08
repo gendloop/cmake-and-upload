@@ -43,10 +43,9 @@ runs:
         echo "CURR_VERSION=$version" >> "$GITHUB_OUTPUT"
 
     - name: upload-release-asserts
-      working-directory: ${{ github.workspace }}
       uses: AButler/upload-release-assets@v2.0
       with:
-        files: './upload/*.zip'
+        files: 'upload/*.zip'
         repo-token: ${{ inputs.token }}
         release-tag: ${{ steps.get_version.outputs.CURR_VERSION }}
 
