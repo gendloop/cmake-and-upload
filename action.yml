@@ -34,7 +34,7 @@ runs:
       working-directory: ${{ github.workspace }}
       shell: bash
       run: |
-        version=$(cat version.txt)
+        version=$(cat config.txt)
         major=$(echo $version | grep -o "VERSION_MAJOR=[0-9]*" | cut -d'=' -f2)
         minor=$(echo $version | grep -o "VERSION_MINOR=[0-9]*" | cut -d'=' -f2)
         patch=$(echo $version | grep -o "VERSION_PATCH=[0-9]*" | cut -d'=' -f2)
