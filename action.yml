@@ -29,6 +29,12 @@ runs:
       run: |
         ./cmake.ps1 -generator "Visual Studio 16 2019" -platform "x64"
 
+    - name: create-props
+      working-directory: ${{ github.workspace }}/scripts
+      shell: powershell
+      run: |
+        ./create_props.ps1
+
     - name: get-version
       id: get_version
       working-directory: ${{ github.workspace }}
