@@ -11,11 +11,12 @@ permissions:
   actions: write
 
 on: 
-  workflow_run:
-    workflows:
-      - Release_Version
-    types:
-      - completed
+  # workflow_run:
+  #   workflows:
+  #     - Release_Version
+  #   types:
+  #     - completed
+  workflow_call:
 
 jobs:
   cmake_and_upload:
