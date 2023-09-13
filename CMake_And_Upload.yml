@@ -23,6 +23,6 @@ jobs:
     runs-on: windows-2019
     steps:
       - name: cmake-and-upload
-        uses: gendloop/cmake-and-upload@main
+        uses: gendloop/cmake-and-upload@v1.0.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
