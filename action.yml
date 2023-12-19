@@ -13,10 +13,10 @@ runs:
   steps:
     - name: checkout-repo
       uses: actions/checkout@v3
-      with: 
+      with:
         token: ${{ inputs.token }}
         submodules: 'recursive'
-    
+
     - name: cmake-x86
       working-directory: ${{ github.workspace }}/scripts
       shell: powershell
